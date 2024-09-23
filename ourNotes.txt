@@ -1,0 +1,99 @@
+Idea: Use the string strategy from earlier,
+but this time we can include variable type
+so it can be like "IntWritable;5" for example
+
+
+==================== Task Strategy ====================
+Task 1 - GPS Errors by Time of Day
+- Mapper:
+    - Parses CSV lines and checks GPS fields (`pickup latitude`, `pickup longitude`, `dropoff latitude`, `dropoff longitude`).
+    - Detects GPS errors (zeros or empty strings).
+    - Outputs: hour of `pickup datetime` (key), 1 (value) for each error.
+- Reducer:
+    - Aggregates errors by the hour of the day.
+    - Outputs: hour (key), total number of errors (value).
+
+Task 2 - Top 5 Taxis with Highest GPS Error Rates
+- First MapReduce Job:
+    - Mapper:
+        - Reuses GPS error-checking logic from Task 1.
+        - Outputs: `taxi_id` (key), 1 (value) for each GPS error and `taxi_id` (key), total trips (value).
+    - Reducer:
+        - Aggregates total GPS errors and total trips for each taxi.
+        - Outputs: `taxi_id` (key), error fraction (value).
+
+- Second MapReduce Job:
+    - Mapper:
+        - Uses a priority queue to track top 5 taxis with highest error fraction.
+        - Outputs: top 5 taxis with highest error rates.
+    - Reducer:
+        - Aggregates and sorts the top 5 taxis across all Mappers.
+        - Outputs: `taxi_id` (key), error fraction (value).
+
+Task 3 - Top 10 Drivers by Earnings per Minute
+- Mapper:
+    - Parses `trip time in secs` and `total amount`.
+    - Outputs: `driver_id` (key), earnings per minute (value) where `earnings per minute = total_amount / trip_time_in_secs * 60`.
+- Reducer:
+    - Aggregates earnings per minute for each driver.
+    - Outputs: top 10 drivers by earnings per minute (value).
+
+
+
+==================== Overview of files ====================
+
+Main Job Setup:
+- Configures and runs a Hadoop MapReduce job with custom Mapper/Reducer classes.
+- Specifies input/output paths and formats.
+- Waits for job completion.
+
+Mapper (MapReduceTest.Map):
+- Reads input lines, tokenizes to extract id, start, stop.
+- Outputs: id (key), tuple of start and stop (value).
+Reducer (MapReduceTest.Reduce):
+- Aggregates TupleWritable values by id.
+- Outputs: id (key), processed result (value).
+
+WordCount (WordCount.java, WordCountMapper.java, WordCountReducer.java)
+- Mapper (WordCountMapper):
+    - Tokenizes input text into words.
+    - Outputs: word (key), count 1 (value).
+- Reducer (WordCountReducer):
+    - Sums counts for each word.
+    - Outputs: word (key), total count (value).
+
+==================== Tasks explained ====================
+
+    Task 1 - GPS Errors by Time of Day
+- Mapper:
+    - Parses CSV lines and checks GPS fields (`pickup latitude`, `pickup longitude`, `dropoff latitude`, `dropoff longitude`).
+    - Detects GPS errors (zeros or empty strings).
+    - Outputs: hour of `pickup datetime` (key), 1 (value) for each error.
+- Reducer:
+    - Aggregates errors by the hour of the day.
+    - Outputs: hour (key), total number of errors (value).
+
+Task 2 - Top 5 Taxis with Highest GPS Error Rates
+- First MapReduce Job:
+    - Mapper:
+        - Reuses GPS error-checking logic from Task 1.
+        - Outputs: `taxi_id` (key), 1 (value) for each GPS error and `taxi_id` (key), total trips (value).
+    - Reducer:
+        - Aggregates total GPS errors and total trips for each taxi.
+        - Outputs: `taxi_id` (key), error fraction (value).
+
+- Second MapReduce Job:
+    - Mapper:
+        - Uses a priority queue to track top 5 taxis with highest error fraction.
+        - Outputs: top 5 taxis with highest error rates.
+    - Reducer:
+        - Aggregates and sorts the top 5 taxis across all Mappers.
+        - Outputs: `taxi_id` (key), error fraction (value).
+
+Task 3 - Top 10 Drivers by Earnings per Minute
+- Mapper:
+    - Parses `trip time in secs` and `total amount`.
+    - Outputs: `driver_id` (key), earnings per minute (value) where `earnings per minute = total_amount / trip_time_in_secs * 60`.
+- Reducer:
+    - Aggregates earnings per minute for each driver.
+    - Outputs: top 10 drivers by earnings per minute (value).
