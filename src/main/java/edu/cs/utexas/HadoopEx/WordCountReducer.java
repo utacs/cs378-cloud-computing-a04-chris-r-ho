@@ -8,16 +8,16 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 public class WordCountReducer extends  Reducer<Text, IntWritable, Text, IntWritable> {
 
-   public void reduce(Text text, Iterable<IntWritable> values, Context context)
+    public void reduce(Text text, Iterable<IntWritable> values, Context context)
            throws IOException, InterruptedException {
 	   
         int errorTot = 0;
     
         for (IntWritable value : values) {
-                errorTot += value.get();
+            errorTot += value.get();
         }
         
         context.write(text, new IntWritable(errorTot));
      
-   }
+    }
 }
