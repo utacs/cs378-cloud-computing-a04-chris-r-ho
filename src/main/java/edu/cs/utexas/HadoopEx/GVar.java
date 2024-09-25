@@ -1,3 +1,4 @@
+package edu.cs.utexas.HadoopEx;
 // Global variables
 
 public class GVar {
