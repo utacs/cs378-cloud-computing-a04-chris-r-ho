@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 public class TopKReducer extends Reducer<Text, FloatWritable, Text, FloatWritable> {
 
 
-    private PriorityQueue<Record> pq = new PriorityQueue<>(10);;
+    private PriorityQueue<Record> pq = new PriorityQueue<>(10);
 
 
     private Logger logger = Logger.getLogger(TopKReducer.class);
@@ -53,7 +53,7 @@ public class TopKReducer extends Reducer<Text, FloatWritable, Text, FloatWritabl
                 logger.error("Reducer Error: " + key.toString());
             }
 
-            // Keep the priorityQueue size <= 5
+            // Keep the priorityQueue size <= 10
             while (pq.size() > 10) {
                 pq.poll();
             }
@@ -78,7 +78,7 @@ public class TopKReducer extends Reducer<Text, FloatWritable, Text, FloatWritabl
 
         Collections.reverse(values);
 
-        // Emit the top 5 values in descending order
+        // Emit the top 10 values in descending order
         for (Record value : values) {
             context.write(value.getID(), value.getRatio());
             logger.info("TopKReducer - Top-5 are:  " + value.getString() + "  Ratio: " + value.getFloat());

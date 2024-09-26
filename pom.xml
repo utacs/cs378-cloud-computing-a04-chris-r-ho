@@ -5,9 +5,9 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<name>Hadoop MapReduce</name>
-	<description>A Hadoop MapReduce example </description>
+	<description>A Hadoop MapReduce</description>
 	<groupId>edu.cs.utexas.HadoopEx</groupId>
-	<artifactId>MapReduce-WordCount-example</artifactId>
+	<artifactId>MapReduce-Task3</artifactId>
 	<version>0.1-SNAPSHOT</version>
 
 
@@ -35,7 +35,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>edu.cs.utexas.HadoopEx.WordCount</mainClass>
+							<mainClass>edu.cs.utexas.HadoopEx.Task3Master</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
