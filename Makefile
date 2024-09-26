@@ -2,7 +2,7 @@ task1:
 	mvn clean package
 	java -jar target/MapReduce-WordCount-example-0.1-SNAPSHOT-jar-with-dependencies.jar taxi-data-sorted-small.csv output
 
-task2:
+task2-3:
 	mvn clean package
 	java -jar target/MapReduce-WordCount-example-0.1-SNAPSHOT-jar-with-dependencies.jar taxi-data-sorted-small.csv intermediatefolder output
 

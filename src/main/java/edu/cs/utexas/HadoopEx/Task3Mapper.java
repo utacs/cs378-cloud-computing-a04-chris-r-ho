@@ -3,10 +3,11 @@ package edu.cs.utexas.HadoopEx;
 import java.io.IOException;
 
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class Task2Mapper extends Mapper<Object, Text, Text, IntWritable> {
+public class Task3Mapper extends Mapper<Object, Text, Text, FloatPairWritable> {
 
 	private final int PICKUP_TIME_IDX = 2;
 	private final int PICKUP_LONG_IDX = 6;
@@ -16,7 +17,9 @@ public class Task2Mapper extends Mapper<Object, Text, Text, IntWritable> {
 	private final int DROPOFF_LONG_IDX = 8;
 	private final int DROPOFF_LAT_IDX = 9;
 
-	private final int TAXI_ID_IDX = 0;
+	private final int DRIVER_ID_IDX = 1;
+    private final int TOTAL_AMOUNT_IDX = 16;
+    private final int TRIP_TIME_IDX = 4;
 
 	public void map(Object key, Text value, Context context) 
 			throws IOException, InterruptedException {
@@ -25,38 +28,28 @@ public class Task2Mapper extends Mapper<Object, Text, Text, IntWritable> {
 
 		if (!parse(text, value.toString())) return;
 
-		IntWritable error;
-		Text taxi;
+		FloatWritable totalAmount;
+        FloatWritable tripTime;
+		Text driver;
 		
 		// 0 - hour (between 1-24 if valid, -1 otherwise), 1 - 0/1 for if longitude has error or not, 2 - 0/1 for if the latitude has error or not
 		int[] pickup = new int[3];
 		pickup = parseGPS(text, PICKUP_TIME_IDX, PICKUP_LONG_IDX, PICKUP_LAT_IDX);
-		
-		// Map it
-		if (pickup[0] != -1) {
-			// max of 0 or 1 - 1 means there is an error
-			error = new IntWritable(Math.max(pickup[1], pickup[2]));
-
-			// taxi id
-			taxi = new Text(text[TAXI_ID_IDX]);
-
-			// Map
-			context.write(taxi, error);
-		}
 
 		int[] dropoff = new int[3];
 		dropoff = parseGPS(text, DROPOFF_TIME_IDX, DROPOFF_LONG_IDX, DROPOFF_LAT_IDX);
 
 		// Map it
-		if (dropoff[0] != -1) {
-			// max of 0 or 1 - 1 means there is an error
-			error = new IntWritable(Math.max(dropoff[1], dropoff[2]));
+		if (pickup[0] != -1 && pickup[1] != 1 && pickup[2] != 1 && dropoff[0] != -1 && dropoff[1] != 1 && dropoff[2] != 1) {
+			// Driver
+            driver = new Text(text[DRIVER_ID_IDX]);
 
-			// taxi id
-			taxi = new Text(text[TAXI_ID_IDX]);
-
+            // PairWritable
+            totalAmount = new FloatWritable(Float.parseFloat(text[TOTAL_AMOUNT_IDX]));
+            tripTime = new FloatWritable(Float.parseFloat(text[TRIP_TIME_IDX]));
+            FloatPairWritable pair = new FloatPairWritable(totalAmount, tripTime);
 			// Map
-			context.write(taxi, error);
+			context.write(driver, pair);
 		}
 	}
 
@@ -88,7 +81,7 @@ public class Task2Mapper extends Mapper<Object, Text, Text, IntWritable> {
 		if (values.length != 17) return false;
 
 		try {
-			float total = Float.parseFloat(values[16]);
+			float total = Float.parseFloat(values[TOTAL_AMOUNT_IDX]);
 			if (total > 500) return false; //do we need to keep this?
 
 			float checkTotal = 0;
@@ -101,7 +94,7 @@ public class Task2Mapper extends Mapper<Object, Text, Text, IntWritable> {
 				return false;
 			}
 
-			float tripTimeInSec = Float.parseFloat(values[4]);
+			float tripTimeInSec = Float.parseFloat(values[TRIP_TIME_IDX]);
 
 			if (Math.round(tripTimeInSec*1000) == 0) return false;
 			

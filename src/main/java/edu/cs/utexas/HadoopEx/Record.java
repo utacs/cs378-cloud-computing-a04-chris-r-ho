@@ -6,18 +6,18 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 
 
-public class Task2Record implements Comparable<Task2Record> {
+public class Record implements Comparable<Record> {
 
-        private Text taxiID;
+        private Text id;
         private FloatWritable ratio;
 
-        public Task2Record(Text taxiID, FloatWritable ratio) {
-            this.taxiID = taxiID;
+        public Record(Text id, FloatWritable ratio) {
+            this.id = id;
             this.ratio = ratio;
         }
 
-        public Text getTaxiID() {
-            return taxiID;
+        public Text getID() {
+            return id;
         }
 
         public FloatWritable getRatio() {
@@ -25,7 +25,7 @@ public class Task2Record implements Comparable<Task2Record> {
         }
 
         public String getString(){
-            return taxiID.toString();
+            return id.toString();
         }
         
         public float getFloat() {
@@ -38,7 +38,7 @@ public class Task2Record implements Comparable<Task2Record> {
      * @return 0 if equal, negative if this < other, positive if this > other
      */
         @Override
-        public int compareTo(Task2Record other) {
+        public int compareTo(Record other) {
             float thisval = getFloat();
             float otherval = other.getFloat();
 

@@ -9,12 +9,12 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.log4j.Logger;
 
-public class Task2TopKMapper extends Mapper<Text, Text, Text, FloatWritable> {  
+public class TopKMapper extends Mapper<Text, Text, Text, FloatWritable> {  
 
-	private Logger logger = Logger.getLogger(Task2TopKMapper.class);
+	private Logger logger = Logger.getLogger(TopKMapper.class);
 
 
-	private PriorityQueue<Task2Record> pq;
+	private PriorityQueue<Record> pq;
 
 	public void setup(Context context) {
 		pq = new PriorityQueue<>();
@@ -33,9 +33,9 @@ public class Task2TopKMapper extends Mapper<Text, Text, Text, FloatWritable> {
 
 		float ratio = Float.parseFloat(value.toString().trim());
 		
-		pq.add(new Task2Record(new Text(key), new FloatWritable(ratio)));
+		pq.add(new Record(new Text(key), new FloatWritable(ratio)));
 
-		if (pq.size() > 5) {
+		if (pq.size() > 10) {
 			pq.poll();
 		}
 	}
@@ -44,9 +44,9 @@ public class Task2TopKMapper extends Mapper<Text, Text, Text, FloatWritable> {
 
 
 		while (pq.size() > 0) {
-			Task2Record wordAndCount = pq.poll();
-			context.write(wordAndCount.getTaxiID(), wordAndCount.getRatio());
-			logger.info("Task2TopKMapper PQ Status: " + pq.toString());
+			Record wordAndCount = pq.poll();
+			context.write(wordAndCount.getID(), wordAndCount.getRatio());
+			logger.info("TopKMapper PQ Status: " + pq.toString());
 		}
 	}
 

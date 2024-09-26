@@ -46,18 +46,25 @@ public class WordCount extends Configured implements Tool {
 			// job.setMapperClass(WordCountMapper.class);
 
 			// Task 2
-			job.setMapperClass(Task2Mapper.class);
+			// job.setMapperClass(Task2Mapper.class);
+
+			// Task 3
+			job.setMapperClass(Task3Mapper.class);
 
 			// specify a Reducer
 			// Task 1
 			// job.setReducerClass(WordCountReducer.class);
 
 			// Task 2
-			job.setReducerClass(Task2Reducer.class);
+			// job.setReducerClass(Task2Reducer.class);
+
+			// Task 3
+			job.setReducerClass(Task3Reducer.class);
 
 			// specify output types
 			job.setOutputKeyClass(Text.class);
-			job.setOutputValueClass(IntWritable.class); //Task 1
+			// job.setOutputValueClass(IntWritable.class); //Task 1 & 2
+			job.setOutputValueClass(FloatPairWritable.class); //Task 3
 
 			// specify input and output directories
 			FileInputFormat.addInputPath(job, new Path(args[0]));
@@ -70,14 +77,15 @@ public class WordCount extends Configured implements Tool {
 				return 1;
 			}
 
+			// Task 2 and 3
 			Job job2 = new Job(conf, "TopK");
 			job2.setJarByClass(WordCount.class);
 
 			// specify a Mapper
-			job2.setMapperClass(Task2TopKMapper.class);
+			job2.setMapperClass(TopKMapper.class);
 
 			// specify a Reducer
-			job2.setReducerClass(Task2TopKReducer.class);
+			job2.setReducerClass(TopKReducer.class);
 
 			// specify output types
 			job2.setOutputKeyClass(Text.class);

@@ -2,6 +2,34 @@ Idea: Use the string strategy from earlier,
 but this time we can include variable type
 so it can be like "IntWritable;5" for example
 
+==================== Files per Task ====================
+Task 1:
+- Mappers:
+    - WordCountMapper
+- Reducers:
+    - WordCountReducer
+- Driver:
+    - WordCount
+
+Task 2:
+- Mappers:
+    - Task2Mapper
+    - TopKMapper
+- Reducers:
+    - Task2Reducer
+    - TopKReducer
+- Driver:
+    - WordCount
+
+Task 3:
+- Mappers:
+    - Task3Mapper
+    - TopKMapper
+- Reducers:
+    - Task3Reducer
+    - TopKReducer
+- Driver:
+    - WordCount
 
 ==================== Task Strategy ====================
 Task 1 - GPS Errors by Time of Day

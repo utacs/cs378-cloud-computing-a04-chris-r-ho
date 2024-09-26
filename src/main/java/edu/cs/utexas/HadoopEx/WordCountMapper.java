@@ -16,11 +16,6 @@ public class WordCountMapper extends Mapper<Object, Text, Text, IntWritable> {
 	private final int DROPOFF_LONG_IDX = 8;
 	private final int DROPOFF_LAT_IDX = 9;
 
-	// Create a counter and initialize with 1
-	private final IntWritable counter = new IntWritable(1);
-	// Create a hadoop text object to store words
-	private Text word = new Text();
-
 	public void map(Object key, Text value, Context context) 
 			throws IOException, InterruptedException {
 		
