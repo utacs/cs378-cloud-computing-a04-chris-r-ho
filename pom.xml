@@ -7,7 +7,7 @@
 	<name>Hadoop MapReduce</name>
 	<description>A Hadoop MapReduce</description>
 	<groupId>edu.cs.utexas.HadoopEx</groupId>
-	<artifactId>MapReduce-Task3</artifactId>
+	<artifactId>MapReduce-Task1</artifactId>
 	<version>0.1-SNAPSHOT</version>
 
 
@@ -35,7 +35,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>edu.cs.utexas.HadoopEx.Task3Master</mainClass>
+							<mainClass>edu.cs.utexas.HadoopEx.Task1Master</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
