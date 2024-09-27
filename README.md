@@ -63,7 +63,7 @@ Student UT EID: al55332
 FE757A29F1129533CD6D4A0EC6034106	1.0<br/>
 
 ## YARN History:
-![Screenshot 2024-09-26 184414](https://github.com/user-attachments/assets/62cd2e58-c431-438c-8be3-3057b24a25f2)
+![Screenshot 2024-09-26 184501](https://github.com/user-attachments/assets/68f68500-c7a3-405b-8d4b-2a3b3b43a3c4)
 ![Screenshot 2024-09-26 185650](https://github.com/user-attachments/assets/6d98fa1e-bb4e-4032-8b78-f9a18148d718)
 
 # Task 3
@@ -80,7 +80,7 @@ FA587EC2731AAB9F2952622E89088D4B	180.0<br/>
 E79402C516CEF1A6BB6F526A142597D4	144.55<br/>
 
 ## YARN History:
-![Screenshot 2024-09-26 184501](https://github.com/user-attachments/assets/68f68500-c7a3-405b-8d4b-2a3b3b43a3c4)
+![Screenshot 2024-09-26 184414](https://github.com/user-attachments/assets/62cd2e58-c431-438c-8be3-3057b24a25f2)
 ![Screenshot 2024-09-26 185706](https://github.com/user-attachments/assets/87d0ceea-b1a6-4d01-8d9a-292a5ac98f30)
 
 # Google Cloud - Dataproc
